@@ -6,11 +6,11 @@
     <title>Add Ingredients</title>
 </head>
 <body>
-    <form method = 'post'>
+    <form method="post">
         {% csrf_token %}
-        <label for="name">name</label>
-        <input type="text" name = name>
-        <button>Add to Fridge</button>
+        <label for="name">Name:</label>
+        <input type="text" name="name">
+           <button type="submit">Add to Fridge</button>
     </form>
 </body>
 </html>

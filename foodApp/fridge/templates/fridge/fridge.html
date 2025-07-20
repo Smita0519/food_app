@@ -7,8 +7,15 @@
 </head>
 <body>
     <p>Fridge</p>
-    {% for item in ingredient %}
-    {{item.name}}
+    <form method="post" >
+          {% csrf_token %}
+ {% for item in ingredient %}
+    <label for="fridge_item"> {{item.name}}</label>
+    <input type="checkbox" name="fridge_item" value="{{item.name}}" >
+   
     {% endfor %}
+    <button type="submit" >Find Recipe</button>
+    </form>
+   
 </body>
 </html>
