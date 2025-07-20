@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>recipes</title>
+    <style>
+        *{
+        
+            padding: clamp(10px,1rem,1.2rem);
+            text-align: center;
+        }
+       .recipe{
+        text-align: right;
+        display: flex;
+        align-items: center;
+        gap:2px;
+        flex-direction: column;
+            border:2px solid black;
+            margin:5px;
+            width:300px;
+            
+            padding: 4px;
+              border-radius: 20px;
+           
+        }
+         .recipe:hover{
+                box-shadow: 2px 2px 5px black;
+            }
+        img{
+            height: 120px;
+            object-fit: contain;
+        }
+        .container{
+            border: none;
+            display: flex;
+            flex-wrap: wrap;
+            height: 100%;
+            justify-content: center;
+            gap:5px
+           
+        }
+          button {
+      margin-top: 10px;
+      cursor: pointer;
+      border: 1px solid black;
+      border-radius: 4px;
+      padding:8px;
+      background:transparent;
+    }
+      
+    </style>
+
+</head>
+<body>
+<h2>Recipes</h2>
+
+    <div class="container">
+   
+{%for recipe in recipes%}
+   {% for key in recipe %}
+   <div class="recipe">
+<h2> {{key.strMeal}}</h2> 
+
+<img src="{{key.strMealThumb}}" alt="{{key.strMeal}}">
+  <a href="{{key.strYoutube}}">Link to youtube</a>
+     
+   <p class="instruction">{{key.strInstructions}}</p> 
+  
+   </div>
+  
+
+
+{% endfor %}
+
+{% endfor %}
+ </div>
+     <script>
+document.addEventListener("DOMContentLoaded", function () {
+instructions=document.querySelectorAll(".instruction");
+
+
+instructions.forEach(instruction => {
+    const text =instruction.innerText;
+    if(text.length>200){
+const readMorebtn=document.createElement("button");
+readMorebtn.classList.add("readMore");
+readMorebtn.innerText="Read More";
+
+ const fullText = text;
+ const shortText= text.slice(0,200)+"..."
+instruction.innerText = shortText;
+
+readMorebtn.addEventListener("click",()=>{
+    if(instruction.innerText== shortText){
+        instruction.innerText=fullText;
+        readMorebtn.innerText='Show Less'
+
+    }
+    else{
+        instruction.innerText=shortText;
+        readMorebtn.innerText='Read More'
+
+        
+    }
+})
+     instruction.parentNode.appendChild(readMorebtn);
+
+    }
+    
+});
+})
+    </script>
+</body>
+</html>

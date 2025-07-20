@@ -1,0 +1,174 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | Plan My Meal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* background: linear-gradient(135deg, #fff0e1 0%, #ffe4d2 100%); */
+           background-image: url("/static/images/bg1.jpg");
+
+            background-size: cover;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background-color: #ff6b6b;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .container {
+            flex-grow: 1;
+            padding: 3rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: hsl(34, 78%, 91%, 0.3);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #e93d3d;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .features {
+            margin: 2rem 0;
+            font-size: 1.1rem;
+        }
+
+        .features ul {
+            list-style: none;
+        }
+
+        .features ul li::before {
+            content: "✓ ";
+            color: #ff6b6b;
+            margin-right: 5px;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            margin: 0.5rem;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #e65a5a;
+        }
+
+        .flow {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            background-color: #ffe5e0;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .illustration {
+            margin-top: 2rem;
+        }
+
+        /* .illustration img {
+            width: 120px;
+            height: auto;
+            opacity: 0.9;
+        } */
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Plan My Meal</div>
+        <ul>
+            <li><a href="{% url 'welcome:welcomePage' %}">Home</a></li>
+            <li><a href="{% url 'fridge:viewIngredients' %}">Fridge</a></li>
+            <li><a href="#">Recipes</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome to Plan My Meal 🍽️</h1>
+        <p class="tagline">“Don’t know what to cook? Let your fridge decide!”</p>
+
+        <div class="features">
+            <ul>
+                <li>Choose what’s in your fridge</li>
+                <li>Instantly get recipes you can make</li>
+            </ul>
+        </div>
+
+        <a href="{% url 'fridge:viewIngredients' %}" class="btn">Go to Fridge</a>
+
+        <div class="flow">
+            Fridge 🧊 → Ingredients 🥕 → Recipes 🍲
+        </div>
+
+        <!-- <div class="illustration">
+            <img src="{% static 'images/fridge.png' %}" alt="Fridge Illustration">
+
+        </div> -->
+    </div>
+
+    <footer>
+        &copy; 2025 Plan My Meal. All rights reserved.
+    </footer>
+</body>
+</html>
