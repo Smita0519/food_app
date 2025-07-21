@@ -2,13 +2,23 @@ from django.shortcuts import render,redirect
 import requests as http_request
 from .models import Ingredient
 # Create your views here.
-def viewIngredients(requests):
-    if requests.method=='POST':
-        return specificRecipe(requests) 
-        
+def viewIngredients(request):
+    if request.method == 'POST':
+        action_type = request.POST.get('action_type')
 
-    ingredient=Ingredient.objects.all()
-    return render(requests,'fridge/fridge.html',{'ingredient':ingredient})
+        if action_type == 'add':
+            name = request.POST.get('name')
+            if name and not Ingredient.objects.filter(name__iexact=name).exists():
+                Ingredient.objects.create(name=name)
+            return redirect('viewIngredients')  # reload page
+
+        elif action_type == 'search':
+            return specificRecipe(request)
+
+    # GET request: show ingredients
+    ingredient = Ingredient.objects.all()
+    return render(request, 'fridge/fridge.html', {'ingredient': ingredient})
+
 
 
 
@@ -62,7 +72,3 @@ def recipes(request) :
         
         # print(recipes)
     return render(request, 'recipe/recipe.html', {'recipes': recipes})
-
-        
-
-    

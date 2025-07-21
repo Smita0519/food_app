@@ -1,21 +1,163 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fridge Ingredients</title>
+    <style>
+            nav {
+        background-color: #8B0000;
+        padding: 0rem 2rem 1rem 5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #D3C4C7;
+        }
+
+        nav .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        }
+
+        nav ul {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+        }
+
+        nav ul li a {
+        color: #f8ec92;
+        text-decoration: none;
+        font-weight: 500;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+        }
+
+        .container {
+            display: flex;
+            min-height: 95vh;
+            padding: 1rem;
+        }
+
+        .image-section {
+            flex: 1;
+            background: url(/static/images/fridge.jpg) no-repeat center center;
+            border-radius: 7%;
+            height: auto;
+            background-size: cover;
+            margin-right: 1rem;
+        }
+
+        .content-section {
+            flex: 1;
+            padding: 40px;
+            background: white;
+            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #34495e;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            margin-bottom: 12px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #219150;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        hr {
+            margin: 30px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
-    <p>Fridge</p>
-    <form method="post" >
-          {% csrf_token %}
- {% for item in ingredient %}
-    <label for="fridge_item"> {{item.name}}</label>
-    <input type="checkbox" name="fridge_item" value="{{item.name}}" >
-   
-    {% endfor %}
-    <button type="submit" >Find Recipe</button>
-    </form>
-   
+    <nav>
+    <div class="logo">Plan My Meal</div>
+    <ul>
+      <li><a href="{% url 'welcome:welcomePage' %}">Home</a></li>
+      <li><a href="{% url 'viewIngredients' %}">Fridge</a></li>
+      <li><a href="#">Recipes</a></li>
+    </ul>
+  </nav>
+
+<div class="container">
+    <div class="image-section"></div>
+
+    <div class="content-section">
+
+        <!-- Form to add a new ingredient -->
+        <form method="post" action="{% url 'viewIngredients' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action_type" value="add">
+            <label for="name">Add Ingredient to Fridge:</label>
+            <input type="text" name="name" required>
+            <button type="submit">Add to Fridge</button>
+        </form>
+
+        <hr>
+
+        <!-- Error message (e.g., when no recipe is found) -->
+        {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+        {% endif %}
+
+        <!-- Form to choose ingredients and find a recipe -->
+        <h2>Your Fridge</h2>
+        <form method="post" action="{% url 'viewIngredients' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action_type" value="search">
+            {% for item in ingredient %}
+                <label>
+                    <input type="checkbox" name="fridge_item" value="{{ item.name }}">
+                    {{ item.name }}
+                </label>
+            {% endfor %}
+            <button type="submit">Find Recipe</button>
+        </form>
+
+    </div>
+</div>
+
 </body>
 </html>
