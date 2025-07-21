@@ -9,11 +9,16 @@ def viewIngredients(request):
         if action_type == 'add':
             name = request.POST.get('name')
             if name and not Ingredient.objects.filter(name__iexact=name).exists():
-                Ingredient.objects.create(name=name)
+
+                Ingredient.objects.create(name=name.lower())
             return redirect('viewIngredients')  # reload page
 
         elif action_type == 'search':
-            return specificRecipe(request)
+            button_clicked=request.POST.get('action')
+            if button_clicked== 'find_recipe':
+                return specificRecipe(request)
+            else:
+                return removeIngredients(request)
 
     # GET request: show ingredients
     ingredient = Ingredient.objects.all()
@@ -39,7 +44,16 @@ def specificRecipe(requests):
                         recipes.append(meals)
     return render(requests, 'recipe/recipe.html', {'recipes': recipes})
 
+def removeIngredients(request):
+    remove_list=request.POST.getlist('fridge_item')
+    for remove_ingredient in remove_list:
+        print("start:==",Ingredient.objects.all())
+        print(remove_ingredient)
+        Ingredient.objects.filter(name=remove_ingredient).delete()
+        print("end:==",Ingredient.objects.all())
 
+    ingredient=Ingredient.objects.all()
+    return render(request,'fridge/fridge.html', {'ingredient': ingredient})
 
 def addIngredients(requests):
     recipes=[]
