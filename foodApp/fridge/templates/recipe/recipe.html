@@ -178,15 +178,15 @@
 <h2>Recipes</h2>
 
     <div class="container">
-   
+   {% if recipes %}
 {%for recipe in recipes%}
    {% for key in recipe %}
    <div class="recipe">
 <h2> {{key.strMeal}}</h2> 
 
 <img src="{{key.strMealThumb}}" alt="{{key.strMeal}}">
-  <a href="{{key.strYoutube}}">Link to youtube</a>
-     
+ {% if key.strYoutube %}<a href="{{key.strYoutube}}">Link to youtube</a>
+     {% endif %}
    <p class="instruction">{{key.strInstructions}}</p> 
   
    </div>
@@ -196,6 +196,9 @@
 {% endfor %}
 
 {% endfor %}
+{% else %}
+<h2>No recipe Available</h2>
+{% endif %}
  </div>
      <script>
 document.addEventListener("DOMContentLoaded", function () {
