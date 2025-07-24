@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>recipes</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
    <style>
     * {
         box-sizing: border-box;
@@ -19,42 +20,9 @@
                 url("{% static 'images/recipe.jpg' %}") no-repeat center center fixed;
     background-size: cover;
     color: #2c3e50;
-    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
-
-    nav {
-        background-color: #8B0000;
-        padding: 1rem 3rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: #D3C4C7;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    nav .logo {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #fff8dc;
-    }
-
-    nav ul {
-        list-style: none;
-        display: flex;
-        gap: 2rem;
-    }
-
-    nav ul li a {
-        color: #f8ec92;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: color 0.3s ease;
-    }
-
-    nav ul li a:hover {
-        color: #fff;
-    }
 
     h2 {
         text-align: center;
@@ -67,9 +35,8 @@
         flex-wrap: wrap;
         justify-content: center;
         gap: 20px;
-        padding: 40px 20px;
+        /* padding: 40px 20px; */
     }
-        /* background:  url(/static/images/recipe.jpg) no-repeat center center; */
        
     .recipe {
         background: rgba(255, 255, 255, 0.8);
@@ -104,16 +71,6 @@
         margin-bottom: 10px;
     }
 
-    a {
-        color: #0077cc;
-        text-decoration: none;
-        margin-bottom: 10px;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
     .instruction {
         font-size: 0.95rem;
         color: #444;
@@ -138,103 +95,86 @@
         color: #fff;
         border-color: #8B0000;
     }
-
-    @media (max-width: 600px) {
-        .container {
-            padding: 10px;
-        }
-
-        .recipe {
-            width: 90%;
-        }
-
-        nav {
-            flex-direction: column;
-            padding: 1rem;
-        }
-
-        nav ul {
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 10px;
-        }
-    }
-</style>
+   </style>
 
 
 </head>
 <body>
 
-    <nav>
-    <div class="logo">Plan My Meal</div>
-    <ul>
-      <li><a href="{% url 'welcome:welcomePage' %}">Home</a></li>
-      <li><a href="{% url 'viewIngredients' %}">Fridge</a></li>
-        <li><a href="{% url 'recipeIngredients' %}">Recipes</a></li>
+<nav>
+  <div class="logo">Plan My Meal</div>
+  <ul>
+    <li class="nav_link"><a href="{% url 'welcome:welcomePage' %}">Home</a></li>
+    <li class="nav_link"><a href="{% url 'viewIngredients' %}">Fridge</a></li>
+    <li class="nav_link"><a href="{% url 'recipeIngredients' %}">Recipes</a></li>
+  </ul>
+</nav>
 
-    </ul>
-  </nav>
 
 <h2>Recipes</h2>
 
     <div class="container">
-   {% if recipes %}
-{%for recipe in recipes%}
-   {% for key in recipe %}
-   <div class="recipe">
-<h2> {{key.strMeal}}</h2> 
+        {% if recipes %}
+        {%for recipe in recipes%}
+        {% for key in recipe %}
+        <div class="recipe">
+            <h2> {{key.strMeal}}</h2> 
 
-<img src="{{key.strMealThumb}}" alt="{{key.strMeal}}">
- {% if key.strYoutube %}<a href="{{key.strYoutube}}">Link to youtube</a>
-     {% endif %}
-   <p class="instruction">{{key.strInstructions}}</p> 
+            <img src="{{key.strMealThumb}}" alt="{{key.strMeal}}">
+            {% if key.strYoutube %}<a href="{{key.strYoutube}}">Link to youtube</a>
+            {% endif %}
+            <p class="instruction">{{key.strInstructions}}</p> 
   
-   </div>
+        </div>
   
 
 
-{% endfor %}
+        {% endfor %}
 
-{% endfor %}
-{% else %}
-<h2>No recipe Available</h2>
-{% endif %}
- </div>
-     <script>
-document.addEventListener("DOMContentLoaded", function () {
-instructions=document.querySelectorAll(".instruction");
+        {% endfor %}
+        {% else %}
+        <h2>No recipe Available</h2>
+        {% endif %}
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        instructions=document.querySelectorAll(".instruction");
 
 
-instructions.forEach(instruction => {
-    const text =instruction.innerText;
-    if(text.length>200){
-const readMorebtn=document.createElement("button");
-readMorebtn.classList.add("readMore");
-readMorebtn.innerText="Read More";
+        instructions.forEach(instruction => {
+        const text =instruction.innerText;
+        if(text.length>200){
+        const readMorebtn=document.createElement("button");
+        readMorebtn.classList.add("readMore");
+        readMorebtn.innerText="Read More";
 
- const fullText = text;
- const shortText= text.slice(0,200)+"..."
-instruction.innerText = shortText;
+         const fullText = text;
+        const shortText= text.slice(0,200)+"..."
+        instruction.innerText = shortText;
 
-readMorebtn.addEventListener("click",()=>{
-    if(instruction.innerText== shortText){
-        instruction.innerText=fullText;
-        readMorebtn.innerText='Show Less'
+        readMorebtn.addEventListener("click",()=>{
+        if(instruction.innerText== shortText){
+            instruction.innerText=fullText;
+            readMorebtn.innerText='Show Less'
 
-    }
-    else{
-        instruction.innerText=shortText;
-        readMorebtn.innerText='Read More'
+            }
+            else{
+                instruction.innerText=shortText;
+                readMorebtn.innerText='Read More'
 
-        
-    }
-})
-     instruction.parentNode.appendChild(readMorebtn);
+                
+            }
+        })
+            instruction.parentNode.appendChild(readMorebtn);
 
-    }
-    
-});
-})
+            }
+            
+        });
+        })
     </script>
+
+    <footer>
+    &copy; 2025 Plan My Meal. All rights reserved.
+  </footer>
 </body>
 </html>
